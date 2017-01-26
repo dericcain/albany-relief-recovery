@@ -22,8 +22,8 @@ class CreateNeedsTable extends Migration
             $table->text('other_names');
             $table->string('address');
             $table->string('zip');
-            $table->float('lat', 10, 6);
-            $table->float('lng', 10, 6);
+            $table->float('lat', 10, 6)->nullable()->default(null);
+            $table->float('lng', 10, 6)->nullable()->default(null);
             $table->boolean('home_is_damaged')->default(false);
             $table->enum('owner_renter', ['own', 'rent'])->default('own');
             $table->integer('number_of_stories')->nullable()->default(null);
@@ -33,7 +33,6 @@ class CreateNeedsTable extends Migration
             $table->boolean('is_staying_home')->default(false);
             $table->enum('home_damage', ['destroyed', 'unlivable', 'damaged']);
             $table->boolean('has_power')->default(false);
-
             $table->boolean('needs_medical')->default(false);
             $table->boolean('has_baby')->default(false);
             $table->string('diaper_size')->nullable()->default(null);
