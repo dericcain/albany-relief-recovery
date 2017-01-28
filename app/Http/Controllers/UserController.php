@@ -28,7 +28,8 @@ class UserController extends Controller
     public function store()
     {
         request()->merge([
-            'password' => bcrypt(request('password'))
+            'password' => bcrypt(request('password')),
+            'group_id' => request('group')
         ]);
 
         User::create(request()->except('_token'));
