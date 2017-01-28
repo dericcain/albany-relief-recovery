@@ -6,9 +6,12 @@
             <div class="col-sm-12">
                 <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#add-user">Add User</button>
                 <h1>Users</h1>
-                <p class="label label-success">Admin can do anything</p><br>
-                <p class="label label-info">Worker can see backend and change the status of needs, etc.</p><br>
-                <p class="label label-default">User is very limited and cannot perform any administrative tasks.</p><br>
+                <h5><span class="label label-success">Admin can do anything</span></h5>
+                <h5><span class="label label-info">Worker can see backend and change the status of needs, etc.</span>
+                </h5>
+                <h5>
+                    <span class="label label-default">User is very limited and cannot perform any administrative tasks.</span>
+                </h5>
                 <hr>
             </div>
             <div class="col-sm-12">
