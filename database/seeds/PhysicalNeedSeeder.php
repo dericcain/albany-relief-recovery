@@ -14,22 +14,22 @@ class PhysicalNeedSeeder extends Seeder
     {
         PhysicalNeed::insert([
             [
-                'name' => 'food'
-            ],
-            [
-                'name' => 'toiletries'
-            ],
-            [
-                'name' => 'meals'
-            ],
-            [
-                'name' => 'cleaning supplies'
+                'name' => 'nonperishable food'
             ],
             [
                 'name' => 'water'
             ],
             [
-                'name' => 'pet food'
+                'name' => 'baby needs'
+            ],
+            [
+                'name' => 'debris removal'
+            ],
+            [
+                'name' => 'home repair'
+            ],
+            [
+                'name' => 'minor medical supplies'
             ]
         ]);
     }

@@ -20,7 +20,11 @@ class GroupSeeder extends Seeder
             [
                 'name' => 'worker',
                 'slug' => 'worker',
-            ]
+            ],
+            [
+                'name' => 'user',
+                'slug' => 'user',
+            ],
         ]);
     }
 }

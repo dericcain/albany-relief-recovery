@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Need;
 use App\PhysicalNeed;
-use App\WorkDetail;
-use Illuminate\Http\Request;
+use GeoThing\GeoThing;
 
 class NeedController extends Controller
 {
@@ -29,20 +28,35 @@ class NeedController extends Controller
     public function create()
     {
         return view('needs.create', [
-            'physicalNeeds' => PhysicalNeed::all(),
-            'workDetails' => WorkDetail::all(),
+            'physicalNeeds' => PhysicalNeed::all()
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        $coordinates = GeoThing::getCoordinates(request('address'), request('zip'),
+            'AIzaSyCluOwWjHXusS1tUaMHN1q4sXcEXF_c1hk');
+        request()->merge([
+            'lat' => round($coordinates->lat, 6),
+            'lng' => round($coordinates->lng, 6),
+        ]);
+
+        $need = Need::create(request()->except('_token', 'physical_needs'));
+
+        if (request()->has('work_details')) {
+            $need->workDetails()->attach(request('work_details'));
+        }
+
+        if (request()->has('physical_needs')) {
+            $need->physicalNeeds()->attach(request('physical_needs'));
+        }
+
+        return response(['success' => true], 201);
     }
 
     /**
@@ -53,40 +67,30 @@ class NeedController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return view('needs.show', [
+            'need' => Need::with('physicalNeeds')->find($id)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
-    }
+        if (request()->has('pending')) {
+            Need::find($id)->update(['is_pending' => true]);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if (request()->has('complete')) {
+            Need::find($id)->update([
+                'is_complete' => true,
+                'is_pending' => false
+            ]);
+        }
+
+        return response(['success' => true]);
     }
 }

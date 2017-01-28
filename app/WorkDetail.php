@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class WorkDetail extends Model
+class WorkDetail extends SuperModel
 {
     public function needs()
     {
