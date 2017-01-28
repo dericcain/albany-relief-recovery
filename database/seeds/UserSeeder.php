@@ -18,5 +18,12 @@ class UserSeeder extends Seeder
             'password' => bcrypt('H3lping0thers'),
             'group_id' => 1
         ]);
+
+        User::create([
+            'email' => 'kristi@thegroves.church',
+            'name' => 'Kristi Steffens',
+            'password' => bcrypt('H3lping0thers'),
+            'group_id' => 1
+        ]);
     }
 }
