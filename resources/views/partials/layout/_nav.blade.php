@@ -19,8 +19,8 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
-                @if(Auth::guest())
                 <li><a href="{{ route('map.index') }}">Map</a></li>
+                @if(Auth::guest())
                     <li><a href="{{ route('needs.create') }}">New Assessment</a></li>
                 @endif
 
@@ -60,7 +60,7 @@
                         </ul>
                     </li>
                 @endif
-                <!-- Authentication Links -->
+            <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ route('password.request') }}">Reset Password</a></li>
                     <li><a href="{{ url('/login') }}">Login</a></li>
