@@ -34,6 +34,7 @@
                 <li><a href="{{ route('needs.create') }}">New Assessment</a></li>
                 <!-- Authentication Links -->
                 @if (Auth::guest())
+                    <li><a href="{{ route('password.request') }}">Reset Password</a></li>
                     <li><a href="{{ url('/login') }}">Login</a></li>
                 @else
                     <li class="dropdown">
