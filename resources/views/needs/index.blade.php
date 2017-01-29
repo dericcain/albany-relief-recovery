@@ -23,6 +23,8 @@
                                     <td class="pending"><span class="label label-warning">Pending</span></td>
                                 @elseif($need->is_complete)
                                     <td class="complete"><span class="label label-success">Complete</span></td>
+                                @elseif($need->needs_met)
+                                    <td class="needs_met"><span class="label label-info">Needs Met</span></td>
                                 @else
                                     <td class="waiting"><span class="label label-default">Waiting</span></td>
                                 @endif

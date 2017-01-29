@@ -84,6 +84,11 @@ class NeedController extends Controller
                 'is_complete' => true,
                 'is_pending' => false
             ]);
+        } else if (request()->has('need_met')) {
+            $need->physicalNeeds()->detach(request('physical_need_id'));
+            if ($need->physicalNeeds->count() == 0) {
+                $need->update(['needs_met' => true]);
+            }
         } else {
             $coordinates = GeoThing::getCoordinates(request('address'), request('zip'),
                 config('GOOGLE_MAP_API'));
@@ -96,7 +101,6 @@ class NeedController extends Controller
                 $need->physicalNeeds()->sync(request('physical_needs'));
             }
         }
-
 
         return response(['success' => true]);
     }

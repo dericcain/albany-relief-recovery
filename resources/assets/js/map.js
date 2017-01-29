@@ -1,7 +1,8 @@
 import axios from "axios";
 
 let locations,
-    map = $('#map');
+    map = $('#map'),
+    physicalNeeds = $('.physical_needs');
 
 function getNeeds() {
     axios.get('/map/needs')
@@ -34,6 +35,8 @@ function initMap(locations) {
             customMarker = 'markers/green_MarkerC.png';
         } else if (value.is_pending) {
             customMarker = 'markers/orange_MarkerP.png';
+        } else if (value.needs_met) {
+            customMarker = 'markers/blue_MarkerM.png';
         } else {
             customMarker = 'markers/brown_MarkerW.png';
         }
@@ -68,7 +71,12 @@ function contentString(content) {
     let needs = '';
     if (content.physical_needs.length > 0) {
         _.forEach(content.physical_needs, function (value, key) {
-            needs += `<p class="item">${_.upperFirst(value.name)}</p>`;
+            needs += `<div class="checkbox">
+                          <label><input type="checkbox" class="physical_needs" 
+                            data-need_id="${content.id}"
+                            data-physical_needs_id="${value.id}"
+                            value="">${_.capitalize(value.name)}</label>
+                        </div>`;
         });
     }
     let output = `<div id="content">`;
@@ -76,6 +84,8 @@ function contentString(content) {
         output += `<div id="siteNotice"><span class="label label-success">Complete</span></div>`;
     } else if (content.is_pending) {
         output += `<div id="siteNotice"><span class="label label-warning">Pending</span></div>`;
+    } else if (content.needs_met) {
+        output += `<div id="siteNotice"><span class="label label-info">Needs Met</span></div>`;
     } else {
         output += `<div id="siteNotice"><span class="label label-default">Waiting</span></div>`;
     }
@@ -98,4 +108,25 @@ function contentString(content) {
     return output;
 }
 
+function markPhysicalNeedComplete() {
+    $('body').on('change', '.physical_needs', function () {
+        let needId = $(this).data('need_id'),
+            physicalNeedId = $(this).data('physical_needs_id'),
+            isChecked = $(this).prop('checked');
+        axios.post(`/needs/${needId}`, {
+            need_met: true,
+            physical_need_id: physicalNeedId,
+            need_complete: isChecked
+        })
+            .then(response => {
+                console.log(response);
+                toastr.success('The job has been marked complete.')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    });
+}
+
 getNeeds();
+markPhysicalNeedComplete();

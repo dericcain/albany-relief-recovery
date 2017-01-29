@@ -13,6 +13,7 @@ function initTable() {
             search: "_INPUT_",
             searchPlaceholder: 'Search for anything in the table...'
         },
+        "sDom": 'Rfrtlip'
     });
 }
 
