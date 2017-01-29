@@ -29,7 +29,7 @@ function newUser() {
                 toastr.success('The user has been created.');
                 loader.reload();
             })
-            .caatch(error => {
+            .catch(error => {
                 console.log(error);
             })
     })

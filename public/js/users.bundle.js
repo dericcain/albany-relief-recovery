@@ -34,7 +34,7 @@ function newUser() {
                 toastr.success('The user has been created.');
                 loader.reload();
             })
-            .caatch(function (error) {
+            .catch(function (error) {
                 console.log(error);
             })
     })

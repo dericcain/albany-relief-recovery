@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        @include('partials.needs._form', ['route' => route('needs.create')])
+        @include('partials.needs._form', ['route' => route('needs.update', ['id' => $need->id]) ])
     </div>
 @endsection
 

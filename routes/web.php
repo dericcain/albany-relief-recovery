@@ -14,6 +14,7 @@ Route::group([
     Route::get('/{id}', 'NeedController@show')->name('needs.show')->middleware('is-worker');
     Route::post('/', 'NeedController@store')->name('needs.store');
     Route::post('/{id}', 'NeedController@update')->name('needs.update')->middleware('is-worker');
+    Route::get('/{id}/edit', 'NeedController@edit')->name('needs.edit')->middleware('is-worker');
 });
 
 Route::group([

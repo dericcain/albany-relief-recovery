@@ -86,3 +86,11 @@ hr {
     }
   }
 }
+
+.responsive-table-wrapper {
+  overflow-x: scroll;
+
+  table {
+    min-width: 800px;
+  }
+}

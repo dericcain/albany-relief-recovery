@@ -4,11 +4,12 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="table-responsive">
+                <div class="responsive-table-wrapper">
                     <table class="table table-striped table-hover table-condensed" id="needs-table">
                         <thead>
                         <tr>
                             <th>Status</th>
+                            <th></th>
                             <th>Name</th>
                             <th>Address</th>
                             <th>Phone</th>
@@ -25,8 +26,25 @@
                                 @else
                                     <td class="waiting"><span class="label label-default">Waiting</span></td>
                                 @endif
-                                <td><a href="{{ route('needs.show', ['id' => $need->id]) }}">{{ $need->full_name }}</a>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="{{ route('needs.show', ['id' => $need->id]) }}"
+                                           class="btn btn-sm btn-default"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="View Need">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('needs.edit', ['id' => $need->id]) }}"
+                                           class="btn btn-sm btn-primary"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="Edit Need">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </div>
                                 </td>
+                                <td>{{ $need->full_name }}</td>
                                 <td>{{ $need->address }}</td>
                                 <td>{{ $need->phone }}</td>
                                 <td>
@@ -62,14 +80,10 @@
 @endsection
 
 @push('css')
-<link rel="stylesheet" type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/css/dataTables.bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.13/r-2.1.0/datatables.min.css"/>
 @endpush
 
 @push('js')
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/jquery.dataTables.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.13/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="{{ asset('js/needs-table.bundle.js') }}"></script>
 @endpush

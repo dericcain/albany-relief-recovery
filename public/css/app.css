@@ -84,4 +84,12 @@ hr {
   content: '-';
 }
 
+.responsive-table-wrapper {
+  overflow-x: scroll;
+}
+
+.responsive-table-wrapper table {
+  min-width: 800px;
+}
+
 /*# sourceMappingURL=app.css.map */

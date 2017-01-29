@@ -40,17 +40,13 @@ class NeedController extends Controller
     public function store()
     {
         $coordinates = GeoThing::getCoordinates(request('address'), request('zip'),
-            'AIzaSyCluOwWjHXusS1tUaMHN1q4sXcEXF_c1hk');
+            config('GOOGLE_MAP_API'));
         request()->merge([
             'lat' => round($coordinates->lat, 6),
             'lng' => round($coordinates->lng, 6),
         ]);
 
         $need = Need::create(request()->except('_token', 'physical_needs'));
-
-        if (request()->has('work_details')) {
-            $need->workDetails()->attach(request('work_details'));
-        }
 
         if (request()->has('physical_needs')) {
             $need->physicalNeeds()->attach(request('physical_needs'));
@@ -80,17 +76,36 @@ class NeedController extends Controller
      */
     public function update($id)
     {
+        $need = Need::find($id);
         if (request()->has('pending')) {
-            Need::find($id)->update(['is_pending' => true]);
-        }
-
-        if (request()->has('complete')) {
-            Need::find($id)->update([
+            $need->update(['is_pending' => true]);
+        } else if (request()->has('complete')) {
+            $need->update([
                 'is_complete' => true,
                 'is_pending' => false
             ]);
+        } else {
+            $coordinates = GeoThing::getCoordinates(request('address'), request('zip'),
+                config('GOOGLE_MAP_API'));
+            request()->merge([
+                'lat' => round($coordinates->lat, 6),
+                'lng' => round($coordinates->lng, 6),
+            ]);
+            $need->update(request()->except('_token', 'physical_needs'));
+            if (request()->has('physical_needs')) {
+                $need->physicalNeeds()->sync(request('physical_needs'));
+            }
         }
 
+
         return response(['success' => true]);
+    }
+
+    public function edit($id)
+    {
+        return view('needs.edit', [
+            'need' => Need::with('physicalNeeds')->find($id),
+            'physicalNeeds' => PhysicalNeed::all()
+        ]);
     }
 }
