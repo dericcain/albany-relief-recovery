@@ -18,6 +18,17 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'urgent-needs',
+], function () {
+    Route::get('/', 'UrgentNeedController@index')->name('urgent_needs.index')->middleware('is-worker');
+    Route::get('/create', 'UrgentNeedController@create')->name('urgent_needs.create')->middleware('is-worker');
+    Route::get('/{id}', 'UrgentNeedController@show')->name('urgent_needs.show')->middleware('is-worker');
+    Route::post('/', 'UrgentNeedController@store')->name('urgent_needs.store')->middleware('is-worker');
+    Route::post('/{id}', 'UrgentNeedController@update')->name('urgent_needs.update')->middleware('is-worker');
+    Route::get('/{id}/edit', 'UrgentNeedController@edit')->name('urgent_needs.edit')->middleware('is-worker');
+});
+
+Route::group([
     'prefix' => 'map',
     'middleware' => 'web'
 ], function () {

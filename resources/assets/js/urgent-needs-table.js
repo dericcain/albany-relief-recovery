@@ -1,14 +1,6 @@
-webpackJsonp([5],{
+import axios from "axios";
 
-/***/ 33:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-
-
-var table = $('#needs-table'),
+let table = $('#urgent-needs-table'),
     changeStatusButton = $('.change-status');
 
 function initTable() {
@@ -31,19 +23,19 @@ function initToolTip() {
 
 function updateStatus() {
     changeStatusButton.click(function () {
-        var button = $(this);
-        var data;
+        let button = $(this);
+        let data;
         if (button.hasClass('mark-pending')) {
             data = {pending: true}
         } else if (button.hasClass('mark-complete')) {
             data = {complete: true}
         }
-        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(button.data('route'), data)
-            .then(function (response) {
+        axios.post(button.data('route'), data)
+            .then(response => {
                 toastr.success('The need has been updated.');
                 loader.reload();
             })
-            .catch(function (error) {
+            .catch(error => {
                 console.log(error);
             });
     });
@@ -61,10 +53,3 @@ function init() {
 }
 
 init();
-
-
-
-/***/ }
-
-},[33]);
-//# sourceMappingURL=needs-table.bundle.js.map

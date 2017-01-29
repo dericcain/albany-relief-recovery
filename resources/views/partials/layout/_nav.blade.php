@@ -17,21 +17,49 @@
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
-            <!-- Left Side Of Navbar -->
-            <ul class="nav navbar-nav">
-                &nbsp;
-            </ul>
-
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
-                @if(Auth::check() && Auth::user()->isAdmin())
-                    <li><a href="{{ route('users.index') }}">Users</a></li>
-                @endif
+                @if(Auth::guest())
                 <li><a href="{{ route('map.index') }}">Map</a></li>
-                @if(Auth::check() && Auth::user()->isWorker())
-                    <li><a href="{{ route('needs.index') }}">Help List</a></li>
+                    <li><a href="{{ route('needs.create') }}">New Assessment</a></li>
                 @endif
-                <li><a href="{{ route('needs.create') }}">New Assessment</a></li>
+
+                @if(Auth::check() && Auth::user()->isWorker())
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false">
+                            Needs <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ route('needs.index') }}">Needs List</a></li>
+                            <li><a href="{{ route('needs.create') }}">New Assessment</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false">
+                            Urgent Needs <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ route('urgent_needs.index') }}">Urgent Needs List</a></li>
+                            <li><a href="{{ route('urgent_needs.create') }}">New Urgent Need</a></li>
+                        </ul>
+                    </li>
+                @endif
+
+                @if(Auth::check() && Auth::user()->isAdmin())
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false">
+                            Admin <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ route('users.index') }}">Users</a></li>
+                        </ul>
+                    </li>
+                @endif
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ route('password.request') }}">Reset Password</a></li>

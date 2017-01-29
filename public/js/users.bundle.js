@@ -1,1 +1,69 @@
-webpackJsonp([1],{35:function(t,e){function s(){o.click(function(){var t=($(this).data("id"),$(this).data("route")),e=$(this).closest("tr");axios.post(t).then(function(t){toastr.success("The user was deleted."),e.remove()})["catch"](function(t){})})}function n(){c.submit(function(t){t.preventDefault();var e=$(this).serialize(),s=this.action;axios.post(s,e).then(function(t){toastr.success("The user has been created."),loader.reload()})["catch"](function(t){})})}function a(){i.on("change",function(){var t=$(this).val(),e=($(this).data("id"),$(this).data("route"));axios.post(e,{group:t}).then(function(t){toastr.success("The user's group has changed")}).caatch(function(t){})})}var o=$(".delete-user"),c=$("#new-user-form"),i=$(".change-group");s(),n(),a()}},[35]);
+webpackJsonp([1],{
+
+/***/ 37:
+/***/ function(module, exports) {
+
+var deleteButton = $('.delete-user'),
+    form = $('#new-user-form'),
+    changeGroup = $('.change-group');
+
+function deleteUser() {
+    deleteButton.click(function () {
+        var user = $(this).data('id'),
+            route = $(this).data('route'),
+            row = $(this).closest('tr');
+        axios.post(route)
+            .then(function (response) {
+                toastr.success('The user was deleted.');
+                row.remove();
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    })
+}
+
+function newUser() {
+    form.submit(function (event) {
+        event.preventDefault();
+        var data = $(this).serialize(),
+            url = this.action;
+        axios.post(url, data)
+            .then(function (response) {
+                console.log(response);
+                toastr.success('The user has been created.');
+                loader.reload();
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    })
+}
+
+function changeRole() {
+    changeGroup.on('change', function () {
+        console.log('here');
+        var group = $(this).val(),
+            id = $(this).data('id'),
+            route = $(this).data('route');
+
+        axios.post(route, {
+            group: group
+        })
+            .then(function (response) {
+                toastr.success('The user\'s group has changed');
+            })
+            .caatch(function (error) {
+                console.log(error);
+            })
+    })
+}
+
+deleteUser();
+newUser();
+changeRole();
+
+/***/ }
+
+},[37]);
+//# sourceMappingURL=users.bundle.js.map

@@ -6,7 +6,9 @@ let dir = './resources/assets/js/';
 let entryPoints = {
     'app': dir + 'app',
     'needs': dir + 'needs',
+    'urgent-needs': dir + 'urgent-needs',
     'needs-table': dir + 'needs-table',
+    'urgent-needs-table': dir + 'urgent-needs-table',
     'map': dir + 'map',
     'users': dir + 'users'
 };

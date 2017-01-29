@@ -1,13 +1,16 @@
 import axios from "axios";
 
-let locations,
-    map = $('#map'),
-    physicalNeeds = $('.physical_needs');
+let map = $('#map'),
+    albany = {lat: 31.5744842, lng: -84.1287211},
+    currentUser = {
+        lat: 0,
+        lng: 0
+    },
+    googleMap;
 
 function getNeeds() {
     axios.get('/map/needs')
         .then(response => {
-            // console.log(response);
             initMap(response.data);
         })
         .catch(error => {
@@ -16,16 +19,15 @@ function getNeeds() {
 }
 
 function initMap(locations) {
-    let albany = {lat: 31.5744842, lng: -84.1287211};
-
-    let map = new google.maps.Map(document.getElementById('map'), {
+    googleMap = new google.maps.Map(document.getElementById('map'), {
         zoom: 12,
         center: albany,
         scrollwheel: false
     });
 
+    getUsersLocation();
+
     _.forEach(locations, (value, key) => {
-        console.log(value);
         let customMarker = 'markers/brown_MarkerW.png';
         if (value.lat == null || value.lng == null) {
             return;
@@ -52,33 +54,20 @@ function initMap(locations) {
 
         let marker = new google.maps.Marker({
             position: coordinates,
-            map: map,
+            map: googleMap,
             title: `Case# ${value.id}`,
             infoWindow: popup,
             icon: customMarker
         });
 
         google.maps.event.addListener(marker, 'click', function () {
-            this.infoWindow.open(map, this);
+            this.infoWindow.open(googleMap, this);
         });
     });
 
 }
 
-function contentString(content) {
-    let address = content.address ? content.address : '';
-    let zip = content.zip ? content.zip : '';
-    let needs = '';
-    if (content.physical_needs.length > 0) {
-        _.forEach(content.physical_needs, function (value, key) {
-            needs += `<div class="checkbox">
-                          <label><input type="checkbox" class="physical_needs" 
-                            data-need_id="${content.id}"
-                            data-physical_needs_id="${value.id}"
-                            value="">${_.capitalize(value.name)}</label>
-                        </div>`;
-        });
-    }
+function buildInfoWindow(content, address, zip, needs) {
     let output = `<div id="content">`;
     if (content.is_complete) {
         output += `<div id="siteNotice"><span class="label label-success">Complete</span></div>`;
@@ -108,6 +97,23 @@ function contentString(content) {
     return output;
 }
 
+function contentString(content) {
+    let address = content.address ? content.address : '';
+    let zip = content.zip ? content.zip : '';
+    let needs = '';
+    if (content.physical_needs.length > 0) {
+        _.forEach(content.physical_needs, function (value, key) {
+            needs += `<div class="checkbox">
+                          <label><input type="checkbox" class="physical_needs" 
+                            data-need_id="${content.id}"
+                            data-physical_needs_id="${value.id}"
+                            value="">${_.capitalize(value.name)}</label>
+                        </div>`;
+        });
+    }
+    return buildInfoWindow(content, address, zip, needs);
+}
+
 function markPhysicalNeedComplete() {
     $('body').on('change', '.physical_needs', function () {
         let needId = $(this).data('need_id'),
@@ -119,8 +125,7 @@ function markPhysicalNeedComplete() {
             need_complete: isChecked
         })
             .then(response => {
-                console.log(response);
-                toastr.success('The job has been marked complete.')
+                toastr.success('The job has been updated')
             })
             .catch(error => {
                 console.log(error);
@@ -128,5 +133,30 @@ function markPhysicalNeedComplete() {
     });
 }
 
-getNeeds();
-markPhysicalNeedComplete();
+function getUsersLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            let lat = position.coords.latitude;
+            let lng = position.coords.longitude;
+            addUsersMarkerToMap(lat, lng)
+        });
+    }
+}
+
+function addUsersMarkerToMap(lat, lng) {
+    console.log(lat, lng);
+    console.log(googleMap);
+    new google.maps.Marker({
+        position: {lat: lat, lng: lng},
+        map: googleMap,
+        title: `You are here!`,
+        icon: 'markers/red_MarkerM.png'
+    });
+}
+
+function init() {
+    getNeeds();
+    markPhysicalNeedComplete();
+}
+
+init();

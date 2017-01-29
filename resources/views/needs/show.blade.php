@@ -8,6 +8,8 @@
                     <h3><span class="label label-success pull-right">Complete</span></h3>
                 @elseif($need->is_pending)
                     <h3><span class="label label-warning pull-right">Pending</span></h3>
+                @elseif($need->needs_met)
+                    <h3><span class="label label-info pull-right">Needs Met</span></h3>
                 @else
                     <h3><span class="label label-default pull-right">Waiting</span></h3>
                 @endif

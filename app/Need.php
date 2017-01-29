@@ -22,6 +22,9 @@ class Need extends SuperModel
         return $this->belongsToMany(PhysicalNeed::class);
     }
 
+    /**
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
