@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Forms\StoreNeedForm;
+use App\Http\Forms\UpdateNeedForm;
 use App\Need;
 use App\PhysicalNeed;
-use GeoThing\GeoThing;
 
 class NeedController extends Controller
 {
@@ -39,18 +40,8 @@ class NeedController extends Controller
      */
     public function store()
     {
-        $coordinates = GeoThing::getCoordinates(request('address'), request('zip'),
-            config('GOOGLE_MAP_API'));
-        request()->merge([
-            'lat' => round($coordinates->lat, 6),
-            'lng' => round($coordinates->lng, 6),
-        ]);
-
-        $need = Need::create(request()->except('_token', 'physical_needs'));
-
-        if (request()->has('physical_needs')) {
-            $need->physicalNeeds()->attach(request('physical_needs'));
-        }
+        $storeNeedForm = new StoreNeedForm;
+        $storeNeedForm->save();
 
         return response(['success' => true], 201);
     }
@@ -76,35 +67,16 @@ class NeedController extends Controller
      */
     public function update($id)
     {
-        $need = Need::find($id);
-        if (request()->has('pending')) {
-            $need->update(['is_pending' => true]);
-        } else if (request()->has('complete')) {
-            $need->update([
-                'is_complete' => true,
-                'is_pending' => false
-            ]);
-        } else if (request()->has('need_met')) {
-            $need->physicalNeeds()->detach(request('physical_need_id'));
-            if ($need->physicalNeeds->count() == 0) {
-                $need->update(['needs_met' => true]);
-            }
-        } else {
-            $coordinates = GeoThing::getCoordinates(request('address'), request('zip'),
-                config('GOOGLE_MAP_API'));
-            request()->merge([
-                'lat' => round($coordinates->lat, 6),
-                'lng' => round($coordinates->lng, 6),
-            ]);
-            $need->update(request()->except('_token', 'physical_needs'));
-            if (request()->has('physical_needs')) {
-                $need->physicalNeeds()->sync(request('physical_needs'));
-            }
-        }
+        $updateNeedForm = new UpdateNeedForm($id);
+        $updateNeedForm->save();
 
-        return response(['success' => true]);
+        return response(['success' => true], 200);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id)
     {
         return view('needs.edit', [

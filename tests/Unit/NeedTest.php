@@ -11,7 +11,6 @@ class NeedTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    /** @test */
     function a_need_is_inserted_into_the_database()
     {
         // Arrange

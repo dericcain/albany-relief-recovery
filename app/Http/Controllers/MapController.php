@@ -20,10 +20,15 @@ class MapController extends Controller
     public function needs()
     {
         if (Auth::check()) {
-            return response(Need::with('physicalNeeds')->get());
+            return response([
+                'needs' => Need::forAuthedUser(),
+                'isLoggedIn' => true
+            ]);
         }
 
-        return response(Need::select('id', 'address', 'is_complete', 'is_pending', 'zip', 'lat',
-            'lng')->with('physicalNeeds')->get());
+        return response([
+            'needs' => Need::forGuest(),
+            'isLoggedIn' => false
+        ]);
     }
 }

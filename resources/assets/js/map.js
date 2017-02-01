@@ -2,21 +2,20 @@ import axios from "axios";
 
 let map = $('#map'),
     albany = {lat: 31.5744842, lng: -84.1287211},
-    currentUser = {
-        lat: 0,
-        lng: 0
-    },
-    googleMap;
+    googleMap,
+    isLoggedIn;
 
 function getNeeds() {
     axios.get('/map/needs')
         .then(response => {
+            isLoggedIn = response.data.isLoggedIn;
             initMap(response.data);
         })
         .catch(error => {
 
         })
 }
+
 
 function initMap(locations) {
     googleMap = new google.maps.Map(document.getElementById('map'), {
@@ -27,7 +26,7 @@ function initMap(locations) {
 
     getUsersLocation();
 
-    _.forEach(locations, (value, key) => {
+    _.forEach(locations.needs, (value, key) => {
         let customMarker = 'markers/brown_MarkerW.png';
         if (value.lat == null || value.lng == null) {
             return;
@@ -79,8 +78,13 @@ function buildInfoWindow(content, address, zip, needs) {
         output += `<div id="siteNotice"><span class="label label-default">Waiting</span></div>`;
     }
 
-    output += `<h1 class="heading" class="firstHeading">Case# ${content.id}</h1>
+    if (isLoggedIn) {
+        output += `<h1 class="heading" class="firstHeading"><a href="/needs/${content.id}">Case# ${content.id}</a></h1>
                 <div id="bodyContent">`;
+    } else {
+        output += `<h1 class="heading" class="firstHeading">Case# ${content.id}</h1>
+                    <div id="bodyContent">`;
+    }
     if (content.first_name || content.last_name) {
         output += `<p>Name: <strong>${content.first_name} ${content.last_name}</strong></p>`
     }

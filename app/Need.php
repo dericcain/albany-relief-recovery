@@ -12,6 +12,8 @@ class Need extends SuperModel
         'has_applied_for_assistance' => 'boolean',
         'has_power' => 'boolean',
         'attends_church' => 'boolean',
+        'is_pending' => 'boolean',
+        'is_complete' => 'boolean'
     ];
 
     /**
@@ -45,5 +47,45 @@ class Need extends SuperModel
     public function getPhoneAttribute($phoneNumber)
     {
         return PhoneNumber::format($phoneNumber);
+    }
+
+    /**
+     * @return bool
+     */
+    public function markPending()
+    {
+        return $this->update([
+            'is_pending' => true
+        ]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function markComplete()
+    {
+        return $this->update([
+            'is_complete' => true,
+            'is_pending' => false
+        ]);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeForAuthedUser($query)
+    {
+        return $query->with('physicalNeeds')->get();
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeForGuest($query)
+    {
+        return $query->select('id', 'address', 'is_complete', 'is_pending', 'zip', 'lat',
+            'lng')->with('physicalNeeds')->get();
     }
 }
