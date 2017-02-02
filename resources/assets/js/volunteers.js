@@ -1,6 +1,8 @@
 import axios from "axios";
 
-let form = $('#volunteer-form');
+let form = $('#volunteer-form'),
+    table = $('#volunteers-table'),
+    date = $('.datepicker');
 
 function submitForm() {
     form.submit(function (event) {
@@ -17,13 +19,33 @@ function submitForm() {
 }
 
 function initDatePicker() {
-    $('.datepicker').datepicker();
+    if (!date.length > 0) {
+        return false
+    }
+    date.datepicker();
+}
+
+function initTable() {
+    if (!table.length > 0) {
+        return false;
+    }
+    table.DataTable({
+        autoWidth: false,
+        pageLength: 25,
+        colReorder: true,
+        language: {
+            lengthMenu: '_MENU_',
+            search: "_INPUT_",
+            searchPlaceholder: 'Search for anything in the table...'
+        },
+        "sDom": 'Rfrtlip'
+    });
 }
 
 function init() {
     initDatePicker();
     submitForm();
-    toastr.success('The form was submitted!');
+    initTable();
 }
 
 init();

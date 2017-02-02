@@ -11,6 +11,8 @@ toastr.options = {
     "positionClass": "toast-bottom-full-width",
     'showMethod': 'slideDown',
     'hideMethod': 'slideUp',
+    "showDuration": "300",
+    "hideDuration": "300",
 };
 
 require('./loader');

@@ -17,7 +17,7 @@ class CreateVolunteersTable extends Migration
             $table->increments('id');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('phone');
             $table->string('affiliation')->nullable()->default(null);
             $table->boolean('debris_removal')->default(false);

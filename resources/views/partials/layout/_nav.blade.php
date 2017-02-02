@@ -55,7 +55,7 @@
                             Volunteers <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            {{--<li><a href="{{ route('volunteers.index') }}">Volunteer List</a></li>--}}
+                            <li><a href="{{ route('volunteers.index') }}">Volunteer List</a></li>
                             <li><a href="{{ route('volunteers.create') }}">Volunteer Form</a></li>
                         </ul>
                     </li>
