@@ -9,7 +9,8 @@ function submitForm() {
             route = this.action;
         axios.post(route, data)
             .then(() => {
-                toastr.success('The form was submitted!')
+                toastr.success('The form was submitted!');
+                document.getElementById('volunteer-form').reset();
             })
             .catch(error => console.log(error));
     })
@@ -22,6 +23,7 @@ function initDatePicker() {
 function init() {
     initDatePicker();
     submitForm();
+    toastr.success('The form was submitted!');
 }
 
 init();
