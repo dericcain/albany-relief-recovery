@@ -22,6 +22,7 @@
                 <li><a href="{{ route('map.index') }}">Map</a></li>
                 @if(Auth::guest())
                     <li><a href="{{ route('needs.create') }}">New Assessment</a></li>
+                    <li><a href="{{ route('volunteers.create') }}">Volunteer Form</a></li>
                 @endif
 
                 @if(Auth::check() && Auth::user()->isWorker())
@@ -45,6 +46,17 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ route('urgent_needs.index') }}">Urgent Needs List</a></li>
                             <li><a href="{{ route('urgent_needs.create') }}">New Urgent Need</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false">
+                            Volunteers <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            {{--<li><a href="{{ route('volunteers.index') }}">Volunteer List</a></li>--}}
+                            <li><a href="{{ route('volunteers.create') }}">Volunteer Form</a></li>
                         </ul>
                     </li>
                 @endif

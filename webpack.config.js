@@ -10,7 +10,8 @@ let entryPoints = {
     'needs-table': dir + 'needs-table',
     'urgent-needs-table': dir + 'urgent-needs-table',
     'map': dir + 'map',
-    'users': dir + 'users'
+    'users': dir + 'users',
+    'volunteers': dir + 'volunteers'
 };
 
 module.exports = {

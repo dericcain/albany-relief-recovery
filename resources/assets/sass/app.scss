@@ -3,6 +3,11 @@
 
 html, body {
   background-color: $body-bg;
+  font-family: $font-family-sans-serif;
+}
+
+p {
+  font-weight: 300;
 }
 
 footer {
@@ -122,4 +127,25 @@ div.dataTables_wrapper div.dataTables_filter label {
   table {
     min-width: 800px;
   }
+}
+
+.parsley-errors-list.filled {
+  list-style: none;
+  padding: 0;
+
+  li {
+    margin-top: 6px;
+    font-weight: 300;
+    color: $white;
+    background: $color-danger;
+    padding: 3px 0 3px 12px;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 0 rgba(#000, .5);
+  }
+}
+
+.toast {
+  opacity: 1 !important;
+  box-shadow: $box-shadow2 !important;
+  font-weight: 300;
 }
