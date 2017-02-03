@@ -13,6 +13,7 @@ function submitForm() {
             .then(() => {
                 toastr.success('The form was submitted!');
                 document.getElementById('volunteer-form').reset();
+                loader.reload();
             })
             .catch(error => console.log(error));
     })

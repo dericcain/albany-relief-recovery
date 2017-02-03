@@ -17,10 +17,6 @@ function initTable() {
     });
 }
 
-function initToolTip() {
-    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-}
-
 function updateStatus() {
     changeStatusButton.click(function () {
         let button = $(this);
@@ -47,7 +43,6 @@ function initPopover() {
 
 function init() {
     initTable();
-    initToolTip();
     initPopover();
     updateStatus();
 }

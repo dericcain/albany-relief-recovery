@@ -28,18 +28,18 @@
                                     <td>{{ $volunteer->date_available->format(' F j') }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{ route('needs.show', ['id' => $volunteer->id]) }}"
+                                            <a href="{{ route('volunteers.show', ['id' => $volunteer->id]) }}"
                                                class="btn btn-sm btn-default"
                                                data-toggle="tooltip"
                                                data-placement="top"
-                                               title="View Need">
+                                               title="View Volunteer">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="{{ route('needs.edit', ['id' => $volunteer->id]) }}"
+                                            <a href="{{ route('volunteers.edit', ['id' => $volunteer->id]) }}"
                                                class="btn btn-sm btn-primary"
                                                data-toggle="tooltip"
                                                data-placement="top"
-                                               title="Edit Need">
+                                               title="Edit Volunteer">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                         </div>
