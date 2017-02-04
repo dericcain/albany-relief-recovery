@@ -100,7 +100,8 @@ class UpdateNeedForm
 
     private function addCoordinatesToRequest()
     {
-        $coordinates = GeoThing::getCoordinates(request('address'), request('zip'), config('GOOGLE_MAP_API'));
+        $coordinates = GeoThing::getCoordinates(request('address') . 'Albany, GA', request('zip'),
+            config('GOOGLE_MAP_API'));
 
         request()->merge([
             'lat' => round($coordinates->lat, 6),

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 let map = $('#map'),
+    printButton = $('#print-button'),
     albany = {lat: 31.5744842, lng: -84.1287211},
     googleMap,
     isLoggedIn;
@@ -27,7 +28,7 @@ function initMap(locations) {
     getUsersLocation();
 
     _.forEach(locations.needs, (value, key) => {
-        let customMarker = 'markers/brown_MarkerW.png';
+        let customMarker = 'markers/red_MarkerW.png';
         if (value.lat == null || value.lng == null) {
             return;
         }
@@ -35,11 +36,11 @@ function initMap(locations) {
         if (value.is_complete) {
             customMarker = 'markers/green_MarkerC.png';
         } else if (value.is_pending) {
-            customMarker = 'markers/orange_MarkerP.png';
+            customMarker = 'markers/yellow_MarkerP.png';
         } else if (value.needs_met) {
-            customMarker = 'markers/blue_MarkerM.png';
+            customMarker = 'markers/orange_MarkerM.png';
         } else {
-            customMarker = 'markers/brown_MarkerW.png';
+            customMarker = 'markers/red_MarkerW.png';
         }
 
         let coordinates = {
@@ -71,11 +72,42 @@ function buildInfoWindow(content, address, zip, needs) {
     if (content.is_complete) {
         output += `<div id="siteNotice"><span class="label label-success">Complete</span></div>`;
     } else if (content.is_pending) {
-        output += `<div id="siteNotice"><span class="label label-warning">Pending</span></div>`;
+        output += `<div id="siteNotice">
+                        <span class="label label-warning">Pending</span>
+                        <span class="pull-right">
+                            <label>Print
+                                <input type="checkbox" 
+                                    name="needs[]"
+                                    class="print" 
+                                    data-need_id="${content.id}"
+                                    value="${content.id}">
+                            </label>
+                        </span>
+                    </div>`;
     } else if (content.needs_met) {
-        output += `<div id="siteNotice"><span class="label label-info">Needs Met</span></div>`;
+        output += `<div id="siteNotice"><span class="label label-info">Needs Met</span>
+                        <span class="pull-right">
+                            <label>Print
+                                <input type="checkbox" 
+                                    name="needs[]"
+                                    class="print" 
+                                    data-need_id="${content.id}"
+                                    value="${content.id}">
+                                </label>
+                        </span>
+                    </div>`;
     } else {
-        output += `<div id="siteNotice"><span class="label label-default">Waiting</span></div>`;
+        output += `<div id="siteNotice"><span class="label label-default">Waiting</span>
+                        <span class="pull-right">
+                            <label>Print
+                                <input type="checkbox" 
+                                    name="needs[]"
+                                    class="print" 
+                                    data-need_id="${content.id}"
+                                    value="${content.id}">
+                            </label>
+                        </span>
+                    </div>`;
     }
 
     if (isLoggedIn) {
@@ -148,19 +180,29 @@ function getUsersLocation() {
 }
 
 function addUsersMarkerToMap(lat, lng) {
-    console.log(lat, lng);
-    console.log(googleMap);
     new google.maps.Marker({
         position: {lat: lat, lng: lng},
         map: googleMap,
         title: `You are here!`,
-        icon: 'markers/red_MarkerM.png'
+        icon: 'markers/blue_MarkerM.png'
     });
+}
+
+function showPrintButton() {
+    $('body').on('change', '.print', () => {
+        let checkbox = $('.print:checkbox:checked');
+        if (checkbox.length >= 1 && printButton.not(':visible')) {
+            printButton.fadeIn();
+        } else if (checkbox.length < 1 && printButton.is(':visible')) {
+            printButton.fadeOut();
+        }
+    })
 }
 
 function init() {
     getNeeds();
     markPhysicalNeedComplete();
+    showPrintButton();
 }
 
 init();

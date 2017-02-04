@@ -3,19 +3,19 @@
         <h1>Needs Assessment Form</h1>
     </div>
     <div class="col-sm-12">
-        <form class="form" id="needs-form" method="POST" action="{{ $route }}">
+        <form class="form" id="needs-form" method="POST" action="{{ $route }}" data-parsley-validate>
             {{ csrf_field() }}
             <div class="section-wrapper">
                 <h3>General Info</h3>
                 <div class="form-group">
                     <label for="first_name">First Name</label>
                     <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name"
-                           value="{{ $need->first_name or '' }}">
+                           value="{{ $need->first_name or '' }}" required>
                 </div>
                 <div class="form-group">
                     <label for="last_name">Last Name</label>
                     <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"
-                           value="{{ $need->last_name or '' }}">
+                           value="{{ $need->last_name or '' }}" required>
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
@@ -32,16 +32,18 @@
                 <div class="form-group">
                     <label for="address">Address</label>
                     <input type="text" class="form-control" id="address" name="address" placeholder="Address"
-                           value="{{ $need->address or '' }}">
+                           value="{{ $need->address or '' }}" required>
                 </div>
                 <div class="form-group">
                     <label for="zip">Zip</label>
-                    <input type="text" class="form-control" id="zip" name="zip" value="{{ $need->zip or '31701' }}">
+                    <input type="text" class="form-control" id="zip" name="zip" value="{{ $need->zip or '31701' }}"
+                           required>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Phone number</label>
+                    <label for="phone">Phone number (
+                        cell phone</label>
                     <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone number"
-                           value="{{ $need->phone or '' }}">
+                           value="{{ $need->phone or '' }}" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -137,7 +139,8 @@
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" value="1" name="agrees_to_terms"
-                                   id="agrees_to_terms" {{ isset($need) && $need->agrees_to_terms ? 'checked' : '' }}>
+                                   id="agrees_to_terms"
+                                   {{ isset($need) && $need->agrees_to_terms ? 'checked' : '' }} required>
                             I have read and agree to the above statement
                         </label>
                     </div>
@@ -146,7 +149,7 @@
                     <label for="digital_signature">Please enter your name here as a digital signature</label>
                     <input type="text" class="form-control" id="digital_signature" name="digital_signature"
                            placeholder="Please enter your name here as a digital signature"
-                           value="{{ $need->digital_signature or '' }}">
+                           value="{{ $need->digital_signature or '' }}" required>
                 </div>
             </div>
             <div class="section-wrapper">

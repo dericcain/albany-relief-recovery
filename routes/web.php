@@ -57,6 +57,8 @@ Route::group([
     Route::post('/{id}/delete', 'UserController@destroy')->name('users.destroy');
 });
 
+Route::post('/print-needs', 'PrintNeedController@store')->name('print.needs');
+
 Route::get('/stats', 'StatController@index');
 
 Route::post('/messages', 'MessageController@store');
