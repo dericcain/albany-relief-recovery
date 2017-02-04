@@ -39,7 +39,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox" value="1"
-                           name="debris_removal" {{ $volunteer->debris_removal ? 'checked' : '' }}>
+                           name="debris_removal" {{ (isset($volunteer) && $volunteer->debris_removal) ? 'checked' : '' }}>
                     Manual Labor - Clean Up & Debris Removal
                 </label>
             </div>
@@ -47,7 +47,8 @@
         <div class="form-group">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="1" name="home_repair" {{ $volunteer->home_repair ? 'checked' : '' }}>
+                    <input type="checkbox" value="1"
+                           name="home_repair" {{ (isset($volunteer) && $volunteer->home_repair) ? 'checked' : '' }}>
                     Manual Labor - Home Repair
                 </label>
             </div>
@@ -55,7 +56,8 @@
         <div class="form-group">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="1" name="deliveries" {{ $volunteer->deliveries ? 'checked' : '' }}>
+                    <input type="checkbox" value="1"
+                           name="deliveries" {{ (isset($volunteer) && $volunteer->deliveries) ? 'checked' : '' }}>
                     Home Deliveries of Goods
                 </label>
             </div>
@@ -65,7 +67,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox" value="1"
-                           name="administrative" {{ $volunteer->administrative ? 'checked' : '' }}>
+                           name="administrative" {{ (isset($volunteer) && $volunteer->administrative) ? 'checked' : '' }}>
                     Secretarial Work (phone management, data entry, etc.)
                 </label>
             </div>
@@ -73,7 +75,8 @@
         <div class="form-group">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="1" name="sorting" {{ $volunteer->sorting ? 'checked' : '' }}>
+                    <input type="checkbox" value="1"
+                           name="sorting" {{ (isset($volunteer) && $volunteer->sorting) ? 'checked' : '' }}>
                     Sorting/Warehouse Management
                 </label>
             </div>
@@ -82,7 +85,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox" value="1"
-                           name="communications" {{ $volunteer->communications ? 'checked' : '' }}>
+                           name="communications" {{ (isset($volunteer) && $volunteer->communications) ? 'checked' : '' }}>
                     Communication - Social Media
                 </label>
             </div>
@@ -90,7 +93,8 @@
         <div class="form-group">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="1" name="counseling" {{ $volunteer->counseling ? 'checked' : '' }}>
+                    <input type="checkbox" value="1"
+                           name="counseling" {{ (isset($volunteer) && $volunteer->counseling) ? 'checked' : '' }}>
                     Counseling Services
                 </label>
             </div>
@@ -114,23 +118,23 @@
             <h4>How often do you expect to be able to volunteer?</h4>
             <div class="radio">
                 <label><input type="radio" name="time_commitment"
-                              {{ $volunteer->time_commitment == "daily" ? 'checked' : '' }} value="daily">Daily</label>
+                              {{ (isset($volunteer) && $volunteer->time_commitment == "daily") ? 'checked' : '' }} value="daily">Daily</label>
             </div>
             <div class="radio">
                 <label><input type="radio" name="time_commitment"
-                              {{ $volunteer->time_commitment == "3-4 times weekly" ? 'checked' : '' }} value="3-4 times weekly">3-4
+                              {{ (isset($volunteer) && $volunteer->time_commitment == "3-4 times weekly") ? 'checked' : '' }} value="3-4 times weekly">3-4
                     times
                     weekly</label>
             </div>
             <div class="radio disabled">
                 <label><input type="radio" name="time_commitment"
-                              {{ $volunteer->time_commitment == "1-2 times weekly" ? 'checked' : '' }} value="1-2 times weekly">1-2
+                              {{ (isset($volunteer) && $volunteer->time_commitment == "1-2 times weekly") ? 'checked' : '' }} value="1-2 times weekly">1-2
                     times
                     weekly</label>
             </div>
             <div class="radio disabled">
                 <label><input type="radio" name="time_commitment"
-                              {{ $volunteer->time_commitment == "One time opportunity" ? 'checked' : '' }} value="One time opportunity">One
+                              {{ (isset($volunteer) && $volunteer->time_commitment == "One time opportunity") ? 'checked' : '' }} value="One time opportunity">One
                     time
                     opportunity</label>
             </div>
@@ -139,7 +143,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox" value="1"
-                           name="speaks_spanish" {{ $volunteer->speaks_spanish ? 'checked' : '' }}>
+                           name="speaks_spanish" {{ (isset($volunteer) && $volunteer->speaks_spanish) ? 'checked' : '' }}>
                     Please check here if you speak Spanish
                 </label>
             </div>
@@ -152,7 +156,7 @@
         <div class="form-group">
             <label for="date_available">Date available to start</label>
             <input type="text" class="form-control datepicker" id="date_available" name="date_available"
-                   value="{{ $volunteer->date_available ? $volunteer->date_available->format('m/d/Y') : '' }}"
+                   value="{{ (isset($volunteer) && $volunteer->date_available) ? $volunteer->date_available->format('m/d/Y') : '' }}"
                    placeholder="Date available" required>
         </div>
     </div>
@@ -166,7 +170,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox" value="1" name="agrees_to_terms"
-                           {{ $volunteer->agrees_to_terms ? 'checked' : '' }} data-parsley-required>
+                           {{ (isset($volunteer) && $volunteer->agrees_to_terms) ? 'checked' : '' }} data-parsley-required>
                     Please check here to confirm that you have read and agree to the terms above.
                 </label>
             </div>

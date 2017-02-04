@@ -22,10 +22,10 @@ Route::group([
 ], function () {
     Route::get('/', 'VolunteerController@index')->name('volunteers.index')->middleware('is-worker');
     Route::post('/', 'VolunteerController@store')->name('volunteers.store');
+    Route::get('/create', 'VolunteerController@create')->name('volunteers.create');
     Route::get('/{id}', 'VolunteerController@show')->name('volunteers.show')->middleware('is-worker');
     Route::post('/{id}', 'VolunteerController@update')->name('volunteers.update')->middleware('is-worker');
     Route::get('/{id}/edit', 'VolunteerController@edit')->name('volunteers.edit')->middleware('is-worker');
-    Route::get('/create', 'VolunteerController@create')->name('volunteers.create');
 });
 
 Route::group([
@@ -56,3 +56,7 @@ Route::group([
     Route::post('/update/{id}', 'UserController@update')->name('users.update');
     Route::post('/{id}/delete', 'UserController@destroy')->name('users.destroy');
 });
+
+Route::get('/stats', 'StatController@index');
+
+Route::post('/messages', 'MessageController@store');

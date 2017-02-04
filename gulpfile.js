@@ -6,6 +6,6 @@ elixir((mix) => {
     mix.sass('app.scss')
         .webpack('app.js')
         .browserSync({
-            proxy: 'https://relief.dev'
+            proxy: 'http://relief.dev'
         });
 });

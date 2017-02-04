@@ -3,9 +3,13 @@
 namespace App;
 
 use App\Helpers\PhoneNumber;
+use Illuminate\Notifications\Notifiable;
 
 class Need extends SuperModel
 {
+
+    use Notifiable;
+
     protected $casts = [
         'speaks_spanish' => 'boolean',
         'is_staying_home' => 'boolean',
@@ -13,8 +17,11 @@ class Need extends SuperModel
         'has_power' => 'boolean',
         'attends_church' => 'boolean',
         'is_pending' => 'boolean',
-        'is_complete' => 'boolean'
+        'is_complete' => 'boolean',
+        'received_text' => 'boolean'
     ];
+
+    protected $dates = ['received_text_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -22,6 +29,11 @@ class Need extends SuperModel
     public function physicalNeeds()
     {
         return $this->belongsToMany(PhysicalNeed::class);
+    }
+
+    public function routeNotificationForNexmo()
+    {
+        return '1' . PhoneNumber::onlyNumbers($this->phone);
     }
 
     /**
@@ -66,7 +78,8 @@ class Need extends SuperModel
     {
         return $this->update([
             'is_complete' => true,
-            'is_pending' => false
+            'is_pending' => false,
+            'received_text' => false
         ]);
     }
 

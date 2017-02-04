@@ -17,7 +17,7 @@ function initTable() {
     });
 }
 
-function updateStatus() {
+export default function updateStatus() {
     changeStatusButton.click(function () {
         let button = $(this);
         let data;
@@ -42,7 +42,9 @@ function initPopover() {
 }
 
 function init() {
-    initTable();
+    if (table.length > 0) {
+        initTable();
+    }
     initPopover();
     updateStatus();
 }

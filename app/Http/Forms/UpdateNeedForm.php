@@ -2,12 +2,13 @@
 
 namespace App\Http\Forms;
 
+use App\Events\NeedMarkedComplete;
 use App\Need;
 use GeoThing\GeoThing;
 
 class UpdateNeedForm
 {
-    private $need;
+    public $need;
 
     /**
      * UpdateNeedForm constructor.
@@ -58,6 +59,7 @@ class UpdateNeedForm
 
     private function markNeedAsComplete()
     {
+        event(new NeedMarkedComplete($this->need));
         $this->need->markComplete();
     }
 

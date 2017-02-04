@@ -8,6 +8,7 @@ let entryPoints = {
     'needs': dir + 'needs',
     'urgent-needs': dir + 'urgent-needs',
     'needs-table': dir + 'needs-table',
+    'needs-show': dir + 'needs-show',
     'urgent-needs-table': dir + 'urgent-needs-table',
     'map': dir + 'map',
     'users': dir + 'users',

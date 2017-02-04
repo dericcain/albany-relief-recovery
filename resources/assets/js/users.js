@@ -1,3 +1,5 @@
+import axios from "axios";
+
 let deleteButton = $('.delete-user'),
     form = $('#new-user-form'),
     changeGroup = $('.change-group');

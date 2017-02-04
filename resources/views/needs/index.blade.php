@@ -25,6 +25,9 @@
                                 <tr>
                                     @if($need->is_pending)
                                         <td class="pending"><span class="label label-warning">Pending</span></td>
+                                    @elseif($need->received_text)
+                                        <td class="received_text"><span
+                                                    class="label label-danger">Still Needs Help</span></td>
                                     @elseif($need->is_complete)
                                         <td class="complete"><span class="label label-success">Complete</span></td>
                                     @elseif($need->needs_met)
