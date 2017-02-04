@@ -14,10 +14,12 @@
                 @endif
             </div>
         </div>
+        @if(Auth::check())
         <button class="btn btn-primary" type="submit" id="print-button" style="display:none"><i class="fa fa-print"></i>
             Print Selected
             Needs
         </button>
+        @endif
     </form>
 @endsection
 
