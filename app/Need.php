@@ -3,11 +3,11 @@
 namespace App;
 
 use App\Helpers\PhoneNumber;
+use DB;
 use Illuminate\Notifications\Notifiable;
 
 class Need extends SuperModel
 {
-
     use Notifiable;
 
     protected $casts = [
@@ -22,6 +22,18 @@ class Need extends SuperModel
     ];
 
     protected $dates = ['received_text_at'];
+
+    /**
+     * @param $physicalNeed
+     * @return \Illuminate\Database\Query\Expression
+     */
+    public static function amountOfStat($physicalNeed)
+    {
+        return DB::table('needs')
+                 ->join('need_physical_need', 'need_physical_need.need_id', 'needs.id')
+                 ->where('physical_need_id', PhysicalNeed::where('name', $physicalNeed)->first()->id)
+                 ->count();
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -100,5 +112,14 @@ class Need extends SuperModel
     {
         return $query->select('id', 'address', 'is_complete', 'is_pending', 'zip', 'lat',
             'lng')->with('physicalNeeds')->get();
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCompleted($query)
+    {
+        return $query->where('is_complete', true);
     }
 }
