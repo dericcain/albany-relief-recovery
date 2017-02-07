@@ -48,7 +48,7 @@
                                         </div>
                                     </td>
                                     <td class="text-right">
-                                        <button class="delete-user btn btn-danger btn-small"
+                                        <button class="delete-user btn btn-danger btn-sm"
                                                 data-route="{{ route('users.destroy', ['id' => $user->id]) }}"
                                                 data-id="{{ $user->id }}">Delete
                                         </button>
