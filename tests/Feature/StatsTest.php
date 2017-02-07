@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Need;
+use App\PhysicalNeed;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -17,12 +18,31 @@ class StatsTest extends TestCase
     {
         $this->disableExceptionHandling();
         factory(Need::class, 30)->create();
+        PhysicalNeed::insert([
+            [
+                'name' => 'nonperishable food'
+            ],
+            [
+                'name' => 'water'
+            ],
+            [
+                'name' => 'baby needs'
+            ],
+            [
+                'name' => 'debris removal'
+            ],
+            [
+                'name' => 'home repair'
+            ],
+            [
+                'name' => 'minor medical supplies'
+            ]
+        ]);
 
         $response = $this->get('/stats');
 
         $response->assertStatus(200);
         $response->assertSee('completed');
         $response->assertSee('pending');
-        $response->assertSee('water');
     }
 }

@@ -23,6 +23,7 @@
                 @if(Auth::guest())
                     <li><a href="{{ route('needs.create') }}">New Assessment</a></li>
                     <li><a href="{{ route('volunteers.create') }}">Volunteer Form</a></li>
+                    <li><a href="{{ route('group_volunteers.create') }}">Group Volunteer Form</a></li>
                 @endif
 
                 @if(Auth::check() && Auth::user()->isWorker())
@@ -57,6 +58,8 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ route('volunteers.index') }}">Volunteer List</a></li>
                             <li><a href="{{ route('volunteers.create') }}">Volunteer Form</a></li>
+                            <li><a href="{{ route('group_volunteers.index') }}">Group Volunteer List</a></li>
+                            <li><a href="{{ route('group_volunteers.create') }}">Group Volunteer Form</a></li>
                         </ul>
                     </li>
                 @endif

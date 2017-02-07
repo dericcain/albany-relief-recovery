@@ -43,3 +43,30 @@ $factory->define(App\Need::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\GroupVolunteer::class, function (Faker\Generator $faker) {
+
+    return [
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->firstName,
+        'email' => $faker->safeEmail,
+        'phone' => $faker->phoneNumber,
+        'alt_phone' => $faker->phoneNumber,
+        'affiliation' => $faker->word,
+        'origin' => $faker->city,
+        'address' => $faker->streetAddress,
+        'num_volunteers' => $faker->randomElement(['<5', '5-10', '10-20', '20-30', '30-50']),
+        'age_group' => $faker->randomElement(['under 13', '13-17', '18-25', '26-50', '50+']),
+        'debris_removal' => $faker->boolean(),
+        'home_repair' => $faker->boolean(),
+        'deliveries' => $faker->boolean(),
+        'administrative' => $faker->boolean(),
+        'sorting' => $faker->boolean(),
+        'communications' => $faker->boolean(),
+        'counseling' => $faker->boolean(),
+        'other' => $faker->words(3),
+        'speaks_spanish' => false,
+        'agrees_to_terms' => true,
+        'digital_signature' => 'John Doe',
+    ];
+});
+

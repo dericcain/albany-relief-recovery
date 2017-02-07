@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Volunteer;
+use App\GroupVolunteer;
 use Carbon\Carbon;
 
-class VolunteerController extends Controller
+class GroupVolunteerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class VolunteerController extends Controller
      */
     public function index()
     {
-        return view('volunteers.index', [
-            'volunteers' => Volunteer::all()
+        return view('group_volunteers.index', [
+            'volunteers' => GroupVolunteer::all()
         ]);
     }
 
@@ -26,7 +26,7 @@ class VolunteerController extends Controller
      */
     public function create()
     {
-        return view('volunteers.create');
+        return view('group_volunteers.create');
     }
 
     /**
@@ -40,9 +40,9 @@ class VolunteerController extends Controller
             'date_available' => Carbon::parse(request('date_available'))->toDateString()
         ]);
 
-        Volunteer::create(request()->except('_token'));
+        GroupVolunteer::create(request()->except('_token'));
 
-        return response(['success' => true]);
+        return response(['success' => true], 201);
     }
 
     /**
@@ -53,8 +53,8 @@ class VolunteerController extends Controller
      */
     public function show($id)
     {
-        return view('volunteers.show', [
-            'volunteer' => Volunteer::find($id)
+        return view('group_volunteers.show', [
+            'volunteer' => GroupVolunteer::find($id)
         ]);
     }
 
@@ -66,8 +66,8 @@ class VolunteerController extends Controller
      */
     public function edit($id)
     {
-        return view('volunteers.edit', [
-            'volunteer' => Volunteer::find($id)
+        return view('group_volunteers.edit', [
+            'volunteer' => GroupVolunteer::find($id)
         ]);
     }
 
@@ -81,7 +81,7 @@ class VolunteerController extends Controller
     {
         $this->getCheckboxValues();
 
-        Volunteer::find($id)->update(request()->except('_token'));
+        GroupVolunteer::find($id)->update(request()->except('_token'));
 
         return response(['success' => true]);
     }

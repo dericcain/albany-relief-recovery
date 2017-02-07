@@ -29,6 +29,17 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'group-volunteers',
+], function () {
+    Route::get('/', 'GroupVolunteerController@index')->name('group_volunteers.index')->middleware('is-worker');
+    Route::post('/', 'GroupVolunteerController@store')->name('group_volunteers.store');
+    Route::get('/create', 'GroupVolunteerController@create')->name('group_volunteers.create');
+    Route::get('/{id}', 'GroupVolunteerController@show')->name('group_volunteers.show')->middleware('is-worker');
+    Route::post('/{id}', 'GroupVolunteerController@update')->name('group_volunteers.update')->middleware('is-worker');
+    Route::get('/{id}/edit', 'GroupVolunteerController@edit')->name('group_volunteers.edit')->middleware('is-worker');
+});
+
+Route::group([
     'prefix' => 'urgent-needs',
 ], function () {
     Route::get('/', 'UrgentNeedController@index')->name('urgent_needs.index')->middleware('is-worker');
@@ -57,8 +68,7 @@ Route::group([
     Route::post('/{id}/delete', 'UserController@destroy')->name('users.destroy');
 });
 
+
 Route::post('/print-needs', 'PrintNeedController@store')->name('print.needs');
-
 Route::get('/stats', 'StatController@index');
-
 Route::post('/messages', 'MessageController@store');

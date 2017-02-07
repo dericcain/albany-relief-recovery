@@ -20,7 +20,7 @@ class StatController extends Controller
             'food' => Need::amountOfStat('nonperishable food'),
             'baby_needs' => Need::amountOfStat('baby needs'),
             'debris_removal' => Need::amountOfStat('debris removal'),
-            'home repair' => Need::amountOfStat('home repair'),
+            'home_repair' => Need::amountOfStat('home repair'),
             'medical_supplies' => Need::amountOfStat('minor medical supplies')
         ]);
     }

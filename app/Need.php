@@ -31,8 +31,10 @@ class Need extends SuperModel
     {
         return DB::table('needs')
                  ->join('need_physical_need', 'need_physical_need.need_id', 'needs.id')
-                 ->where('physical_need_id', PhysicalNeed::where('name', $physicalNeed)->first()->id)
-                 ->count();
+                 ->where([
+                     'physical_need_id' => PhysicalNeed::where('name', $physicalNeed)->first()->id,
+                     'is_complete' => true
+                 ])->count();
     }
 
     /**
