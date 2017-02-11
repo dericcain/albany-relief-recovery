@@ -111,7 +111,7 @@ function buildInfoWindow(content, address, zip, needs) {
     }
 
     if (isLoggedIn) {
-        output += `<h1 class="heading" class="firstHeading"><a href="/needs/${content.id}">Case# ${content.id}</a></h1>
+        output += `<h1 class="heading" class="firstHeading"><a href="/needs/${content.id}/edit">Case# ${content.id}</a></h1>
                 <div id="bodyContent">`;
     } else {
         output += `<h1 class="heading" class="firstHeading">Case# ${content.id}</h1>

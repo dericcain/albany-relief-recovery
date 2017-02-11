@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Need;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 
 class PrintNeedController extends Controller
 {
@@ -19,22 +20,22 @@ class PrintNeedController extends Controller
         $pdf = PDF::loadView('print.pdf', ['needs' => $needs]);
 
         return $pdf->download('Needs.pdf');
-//        header("HTTP/1.1 200 OK");
-//        header("Pragma: public");
-//        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-//
-//        // The optional second 'replace' parameter indicates whether the header
-//        // should replace a previous similar header, or add a second header of
-//        // the same type. By default it will replace, but if you pass in FALSE
-//        // as the second argument you can force multiple headers of the same type.
-//        header("Cache-Control: private", false);
-//        header("Content-type: application/pdf");
-//
-//        // $strFileName is, of course, the filename of the file being downloaded.
-//        // This won't have to be the same name as the actual file.
-//        header("Content-Disposition: attachment; filename=Needs.pdf");
-//
-//        header("Content-Transfer-Encoding: binary");
-//        header("Content-Length: " . mb_strlen($file));
+    }
+
+    public function stats()
+    {
+        $pdf = PDF::loadView('print.stats', [
+            'date' => Carbon::now()->format('F j, Y'),
+            'completed' => Need::where('is_complete', true)->count(),
+            'pending' => Need::completed()->count(),
+            'water' => Need::amountOfStat('water'),
+            'food' => Need::amountOfStat('nonperishable food'),
+            'baby_needs' => Need::amountOfStat('baby needs'),
+            'debris_removal' => Need::amountOfStat('debris removal'),
+            'home_repair' => Need::amountOfStat('home repair'),
+            'medical_supplies' => Need::amountOfStat('minor medical supplies')
+        ]);
+
+        return $pdf->download('Stats.pdf');
     }
 }

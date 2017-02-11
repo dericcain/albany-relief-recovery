@@ -70,5 +70,7 @@ Route::group([
 
 
 Route::post('/print-needs', 'PrintNeedController@store')->name('print.needs');
+Route::post('/print-stats', 'PrintNeedController@stats')->name('print.stats');
 Route::get('/stats', 'StatController@index');
+Route::get('/stats/show', 'StatController@show')->name('stats.show');
 Route::post('/messages', 'MessageController@store');

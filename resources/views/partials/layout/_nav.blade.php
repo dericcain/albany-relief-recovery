@@ -72,6 +72,7 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ route('users.index') }}">Users</a></li>
+                            <li><a href="{{ route('stats.show') }}">Stats</a></li>
                         </ul>
                     </li>
                 @endif
