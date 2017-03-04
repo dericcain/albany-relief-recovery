@@ -1,1 +1,182 @@
-webpackJsonp([8],{32:function(n,e,a){"use strict";function i(){f.a.get("/map/needs").then(function(n){h=n.data.isLoggedIn,t(n.data)})["catch"](function(n){})}function t(n){g=new google.maps.Map(document.getElementById("map"),{zoom:12,center:b,scrollwheel:!1}),o(),_.forEach(n.needs,function(n,e){var a="markers/red_MarkerW.png";if(null!=n.lat&&null!=n.lng){a=n.is_complete?"markers/green_MarkerC.png":n.is_pending?"markers/yellow_MarkerP.png":n.needs_met?"markers/orange_MarkerM.png":"markers/red_MarkerW.png";var i={lat:parseFloat(n.lat),lng:parseFloat(n.lng)},t=new google.maps.InfoWindow({content:d(n)}),s=new google.maps.Marker({position:i,map:g,title:"Case# "+n.id,infoWindow:t,icon:a});google.maps.event.addListener(s,"click",function(){this.infoWindow.open(g,this)})}})}function s(n,e,a,i){var t='<div id="content">';return t+=n.is_complete?'<div id="siteNotice"><span class="label label-success">Complete</span></div>':n.is_pending?'<div id="siteNotice">\n                        <span class="label label-warning">Pending</span>\n                        <span class="pull-right">\n                            <label>Print\n                                <input type="checkbox" \n                                    name="needs[]"\n                                    class="print" \n                                    data-need_id="'+n.id+'"\n                                    value="'+n.id+'">\n                            </label>\n                        </span>\n                    </div>':n.needs_met?'<div id="siteNotice"><span class="label label-info">Needs Met</span>\n                        <span class="pull-right">\n                            <label>Print\n                                <input type="checkbox" \n                                    name="needs[]"\n                                    class="print" \n                                    data-need_id="'+n.id+'"\n                                    value="'+n.id+'">\n                                </label>\n                        </span>\n                    </div>':'<div id="siteNotice"><span class="label label-default">Waiting</span>\n                        <span class="pull-right">\n                            <label>Print\n                                <input type="checkbox" \n                                    name="needs[]"\n                                    class="print" \n                                    data-need_id="'+n.id+'"\n                                    value="'+n.id+'">\n                            </label>\n                        </span>\n                    </div>',t+=h?'<h1 class="heading" class="firstHeading"><a href="/needs/'+n.id+'/edit">Case# '+n.id+'</a></h1>\n                <div id="bodyContent">':'<h1 class="heading" class="firstHeading">Case# '+n.id+'</h1>\n                    <div id="bodyContent">',(n.first_name||n.last_name)&&(t+="<p>Name: <strong>"+n.first_name+" "+n.last_name+"</strong></p>"),t+="<p>Address: <strong>"+e+", "+a+"</strong></p>",n.phone&&(t+="<p>Phone: "+n.phone+"</p>"),""!=i&&(t+=i),t+="</div>\n            </div>"}function d(n){var e=n.address?n.address:"",a=n.zip?n.zip:"",i="";return n.physical_needs.length>0&&_.forEach(n.physical_needs,function(e,a){i+='<div class="checkbox">\n                          <label><input type="checkbox" class="physical_needs" \n                            data-need_id="'+n.id+'"\n                            data-physical_needs_id="'+e.id+'"\n                            value="">'+_.capitalize(e.name)+"</label>\n                        </div>"}),s(n,e,a,i)}function l(){$("body").on("change",".physical_needs",function(){var n=$(this).data("need_id"),e=$(this).data("physical_needs_id"),a=$(this).prop("checked");f.a.post("/needs/"+n,{need_met:!0,physical_need_id:e,need_complete:a}).then(function(n){toastr.success("The job has been updated")})["catch"](function(n){})})}function o(){navigator.geolocation&&navigator.geolocation.getCurrentPosition(function(n){var e=n.coords.latitude,a=n.coords.longitude;c(e,a)})}function c(n,e){new google.maps.Marker({position:{lat:n,lng:e},map:g,title:"You are here!",icon:"markers/blue_MarkerM.png"})}function r(){$("body").on("change",".print",function(){var n=$(".print:checkbox:checked");n.length>=1&&m.not(":visible")?m.fadeIn():n.length<1&&m.is(":visible")&&m.fadeOut()})}function p(){i(),l(),r()}var g,h,u=a(0),f=a.n(u),m=($("#map"),$("#print-button")),b={lat:31.5744842,lng:-84.1287211};p()}},[32]);
+webpackJsonp([8],{
+
+/***/ 32:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+
+
+var map = $('#map'),
+    printButton = $('#print-button'),
+    albany = {lat: 31.5744842, lng: -84.1287211},
+    googleMap,
+    isLoggedIn;
+
+function getNeeds() {
+    __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/map/needs')
+        .then(function (response) {
+            isLoggedIn = response.data.isLoggedIn;
+            initMap(response.data);
+        })
+        .catch(function (error) {
+
+        })
+}
+
+
+function initMap(locations) {
+    googleMap = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: albany,
+        scrollwheel: false
+    });
+
+    getUsersLocation();
+
+    _.forEach(locations.needs, function (value, key) {
+        var customMarker = 'markers/red_MarkerW.png';
+        if (value.lat == null || value.lng == null) {
+            return;
+        }
+
+        if (value.is_complete) {
+            customMarker = 'markers/green_MarkerC.png';
+        } else if (value.is_pending) {
+            customMarker = 'markers/yellow_MarkerP.png';
+        } else if (value.needs_met) {
+            customMarker = 'markers/orange_MarkerM.png';
+        } else {
+            customMarker = 'markers/red_MarkerW.png';
+        }
+
+        var coordinates = {
+            lat: parseFloat(value.lat),
+            lng: parseFloat(value.lng)
+        };
+
+        var popup = new google.maps.InfoWindow({
+            content: contentString(value)
+        });
+
+        var marker = new google.maps.Marker({
+            position: coordinates,
+            map: googleMap,
+            title: ("Case# " + (value.id)),
+            infoWindow: popup,
+            icon: customMarker
+        });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            this.infoWindow.open(googleMap, this);
+        });
+    });
+
+}
+
+function buildInfoWindow(content, address, zip, needs) {
+    var output = "<div id=\"content\">";
+    if (content.is_complete) {
+        output += "<div id=\"siteNotice\"><span class=\"label label-success\">Complete</span></div>";
+    } else if (content.is_pending) {
+        output += "<div id=\"siteNotice\">\n                        <span class=\"label label-warning\">Pending</span>\n                        <span class=\"pull-right\">\n                            <label>Print\n                                <input type=\"checkbox\" \n                                    name=\"needs[]\"\n                                    class=\"print\" \n                                    data-need_id=\"" + (content.id) + "\"\n                                    value=\"" + (content.id) + "\">\n                            </label>\n                        </span>\n                    </div>";
+    } else if (content.needs_met) {
+        output += "<div id=\"siteNotice\"><span class=\"label label-info\">Needs Met</span>\n                        <span class=\"pull-right\">\n                            <label>Print\n                                <input type=\"checkbox\" \n                                    name=\"needs[]\"\n                                    class=\"print\" \n                                    data-need_id=\"" + (content.id) + "\"\n                                    value=\"" + (content.id) + "\">\n                                </label>\n                        </span>\n                    </div>";
+    } else {
+        output += "<div id=\"siteNotice\"><span class=\"label label-default\">Waiting</span>\n                        <span class=\"pull-right\">\n                            <label>Print\n                                <input type=\"checkbox\" \n                                    name=\"needs[]\"\n                                    class=\"print\" \n                                    data-need_id=\"" + (content.id) + "\"\n                                    value=\"" + (content.id) + "\">\n                            </label>\n                        </span>\n                    </div>";
+    }
+
+    if (isLoggedIn) {
+        output += "<h1 class=\"heading\" class=\"firstHeading\"><a href=\"/needs/" + (content.id) + "/edit\">Case# " + (content.id) + "</a></h1>\n                <div id=\"bodyContent\">";
+    } else {
+        output += "<h1 class=\"heading\" class=\"firstHeading\">Case# " + (content.id) + "</h1>\n                    <div id=\"bodyContent\">";
+    }
+    if (content.first_name || content.last_name) {
+        output += "<p>Name: <strong>" + (content.first_name) + " " + (content.last_name) + "</strong></p>"
+    }
+    output += "<p>Address: <strong>" + address + ", " + zip + "</strong></p>";
+    if (content.phone) {
+        output += "<p>Phone: " + (content.phone) + "</p>";
+    }
+    if (needs != '') {
+        output += needs;
+    }
+    output += "</div>\n            </div>";
+
+    return output;
+}
+
+function contentString(content) {
+    var address = content.address ? content.address : '';
+    var zip = content.zip ? content.zip : '';
+    var needs = '';
+    if (content.physical_needs.length > 0) {
+        _.forEach(content.physical_needs, function (value, key) {
+            needs += "<div class=\"checkbox\">\n                          <label><input type=\"checkbox\" class=\"physical_needs\" \n                            data-need_id=\"" + (content.id) + "\"\n                            data-physical_needs_id=\"" + (value.id) + "\"\n                            value=\"\">" + (_.capitalize(value.name)) + "</label>\n                        </div>";
+        });
+    }
+    return buildInfoWindow(content, address, zip, needs);
+}
+
+function markPhysicalNeedComplete() {
+    $('body').on('change', '.physical_needs', function () {
+        var needId = $(this).data('need_id'),
+            physicalNeedId = $(this).data('physical_needs_id'),
+            isChecked = $(this).prop('checked');
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(("/needs/" + needId), {
+            need_met: true,
+            physical_need_id: physicalNeedId,
+            need_complete: isChecked
+        })
+            .then(function (response) {
+                toastr.success('The job has been updated')
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    });
+}
+
+function getUsersLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            addUsersMarkerToMap(lat, lng)
+        });
+    }
+}
+
+function addUsersMarkerToMap(lat, lng) {
+    new google.maps.Marker({
+        position: {lat: lat, lng: lng},
+        map: googleMap,
+        title: "You are here!",
+        icon: 'markers/blue_MarkerM.png'
+    });
+}
+
+function showPrintButton() {
+    $('body').on('change', '.print', function () {
+        var checkbox = $('.print:checkbox:checked');
+        if (checkbox.length >= 1 && printButton.not(':visible')) {
+            printButton.fadeIn();
+        } else if (checkbox.length < 1 && printButton.is(':visible')) {
+            printButton.fadeOut();
+        }
+    })
+}
+
+function init() {
+    getNeeds();
+    markPhysicalNeedComplete();
+    showPrintButton();
+}
+
+init();
+
+/***/ }
+
+},[32]);
+//# sourceMappingURL=map.bundle.js.map

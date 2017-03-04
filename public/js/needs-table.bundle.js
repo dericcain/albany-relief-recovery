@@ -1,1 +1,68 @@
-webpackJsonp([6],{34:function(e,a,t){"use strict";function n(){h.DataTable({autoWidth:!1,pageLength:25,colReorder:!0,language:{lengthMenu:"_MENU_",search:"_INPUT_",searchPlaceholder:"Search for anything in the table..."},sDom:"Rfrtlip"})}function o(){i.click(function(){var e,a=$(this);a.hasClass("mark-pending")?e={pending:!0}:a.hasClass("mark-complete")&&(e={complete:!0}),l.a.post(a.data("route"),e).then(function(e){toastr.success("The need has been updated."),loader.reload()})["catch"](function(e){})})}function c(){$('[data-toggle="popover"]').popover()}function s(){h.length>0&&n(),c(),o()}var r=t(0),l=t.n(r);a["default"]=o;var h=$("#needs-table"),i=$(".change-status");s()}},[34]);
+webpackJsonp([6],{
+
+/***/ 34:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony export (immutable) */ exports["default"] = updateStatus;
+
+
+var table = $('#needs-table'),
+    changeStatusButton = $('.change-status');
+
+function initTable() {
+    table.DataTable({
+        autoWidth: false,
+        pageLength: 25,
+        colReorder: true,
+        language: {
+            lengthMenu: '_MENU_',
+            search: "_INPUT_",
+            searchPlaceholder: 'Search for anything in the table...'
+        },
+        "sDom": 'Rfrtlip'
+    });
+}
+
+function updateStatus() {
+    changeStatusButton.click(function () {
+        var button = $(this);
+        var data;
+        if (button.hasClass('mark-pending')) {
+            data = {pending: true}
+        } else if (button.hasClass('mark-complete')) {
+            data = {complete: true}
+        }
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(button.data('route'), data)
+            .then(function (response) {
+                toastr.success('The need has been updated.');
+                loader.reload();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
+function initPopover() {
+    $('[data-toggle="popover"]').popover();
+}
+
+function init() {
+    if (table.length > 0) {
+        initTable();
+    }
+    initPopover();
+    updateStatus();
+}
+
+init();
+
+
+
+/***/ }
+
+},[34]);
+//# sourceMappingURL=needs-table.bundle.js.map

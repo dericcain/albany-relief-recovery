@@ -5,25 +5,17 @@ use Carbon\Carbon;
 use GeoThing\GeoThing;
 use Maatwebsite\Excel\Facades\Excel;
 
-/*
-|--------------------------------------------------------------------------
-| Console Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of your Closure based console
-| commands. Each Closure is bound to a command instance allowing a
-| simple approach to interacting with each command's IO methods.
-|
-*/
-
 Artisan::command('update:coor', function () {
-    Need::whereNull('lat')->get()->each(function ($need) {
-        $coordinates = GeoThing::getCoordinates($need->address, $need->zip, 'AIzaSyCluOwWjHXusS1tUaMHN1q4sXcEXF_c1hk');
+    $needsWithoutCoordinates = Need::all();
+    $needsWithoutCoordinates->each(function ($need) {
+        $coordinates = GeoThing::getCoordinates($need->address . 'Albany GA', $need->zip, 'AIzaSyCRIiaSd-mdFVEPKHW_MxEmQek-sF25fVc');
+        $this->info(var_dump($coordinates));
         $need->lat = $coordinates->lat;
         $need->lng = $coordinates->lng;
         $need->save();
+        usleep(50000);
     });
-})->describe('Display an inspiring quote');
+})->describe('Update null coordinates');
 
 Artisan::command('import:needs', function () {
     $files = Excel::load(public_path('needs.csv'), function ($reader) {
