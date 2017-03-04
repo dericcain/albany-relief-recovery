@@ -22,12 +22,17 @@ class PrintNeedController extends Controller
         return $pdf->download('Needs.pdf');
     }
 
+    /**
+     * These are the stats that are on the stat page and are downloadable.
+     * 
+     * @return mixed
+     */
     public function stats()
     {
         $pdf = PDF::loadView('print.stats', [
             'date' => Carbon::now()->format('F j, Y'),
-            'completed' => Need::where('is_complete', true)->count(),
-            'pending' => Need::completed()->count(),
+            'completed' => Need::completed()->count(),
+            'pending' => Need::pending()->count(),
             'water' => Need::amountOfStat('water'),
             'food' => Need::amountOfStat('nonperishable food'),
             'baby_needs' => Need::amountOfStat('baby needs'),

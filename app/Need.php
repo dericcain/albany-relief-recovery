@@ -124,4 +124,9 @@ class Need extends SuperModel
     {
         return $query->where('is_complete', true);
     }
+
+    public function scopePending($query)
+    {
+        return $query->where('is_pending', true);
+    }
 }

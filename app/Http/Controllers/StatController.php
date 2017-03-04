@@ -14,8 +14,8 @@ class StatController extends Controller
     public function index()
     {
         return response()->json([
-            'completed' => Need::where('is_complete', true)->count(),
-            'pending' => Need::completed()->count(),
+            'completed' => Need::completed()->count(),
+            'pending' => Need::pending()->count(),
             'water' => Need::amountOfStat('water'),
             'food' => Need::amountOfStat('nonperishable food'),
             'baby_needs' => Need::amountOfStat('baby needs'),
@@ -33,8 +33,8 @@ class StatController extends Controller
     public function show()
     {
         return view('stats.show', [
-            'completed' => Need::where('is_complete', true)->count(),
-            'pending' => Need::completed()->count(),
+            'completed' => Need::completed()->count(),
+            'pending' => Need::pending()->count(),
             'water' => Need::amountOfStat('water'),
             'food' => Need::amountOfStat('nonperishable food'),
             'baby_needs' => Need::amountOfStat('baby needs'),
